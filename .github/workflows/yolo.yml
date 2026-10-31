@@ -9,8 +9,9 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install ultralytics opencv-python-headless torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
-      - run: yolo predict model=yolov8m.pt source=input.mp4 device=cpu save=True vid_stride=2 imgsz=640
+      - run: yolo predict model=yolov8m.pt source=input.mp4 device=cpu save=True vid_stride=2 imgsz=640 project=runs name=out exist_ok=True
       - uses: actions/upload-artifact@v4
         with:
           name: result
           path: runs/
+          if-no-files-found: error
