@@ -1,0 +1,16 @@
+name: yolo
+on: workflow_dispatch
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ultralytics opencv-python-headless torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
+      - run: yolo predict model=yolov8m.pt source=input.mp4 device=cpu save=True vid_stride=2 imgsz=640
+      - uses: actions/upload-artifact@v4
+        with:
+          name: result
+          path: runs/
